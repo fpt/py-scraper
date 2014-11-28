@@ -6,7 +6,7 @@ class CrawlerBase:
 
     def _fetch_content(self, url):
         # for debug
-        if True:
+        if False:
             fname = "dump_%s.html" % (self._id)
             if os.path.isfile(fname):
                 f = open(fname, 'br')
@@ -21,6 +21,13 @@ class CrawlerBase:
             return page
         else:
             page = requests.get(url)
+            print(" - " + page.encoding)
+
+            # force encoding
+            if hasattr(self, '_force_encoding'):
+                page.encoding = self._force_encoding
+                print(" - " + page.encoding)
+
             page = page.text
             return page
 
